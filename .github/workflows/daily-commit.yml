@@ -1,17 +1,16 @@
 name: Daily Commit
 
-# Define when the workflow will run (schedule it daily)
 on:
   schedule:
-    - cron: '0 0 * * *'  # This is the cron syntax for running once per day at midnight
+    - cron: '0 0 * * *'  # Runs once a day at midnight UTC
 
 jobs:
   daily_commit:
-    runs-on: ubuntu-latest  # The environment in which this will run (a fresh Ubuntu setup)
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3  # This action checks out the repo to make changes
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Add a commit with my email
         run: |
@@ -23,4 +22,4 @@ jobs:
           git config --global user.name "DevSync Automation"
           git add daily-update.txt
           git commit -m "Daily commit update by 21f1001205@ds.study.iitm.ac.in"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
